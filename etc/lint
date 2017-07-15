@@ -1,0 +1,32 @@
+#!/bin/sh
+
+CPPLINT=cpplint
+
+FILTER=\
+-legal/copyright,\
++build/header_guard,\
++build/namespaces,\
++build/include,\
++build/include_what_you_use,\
+-build/include_subdir,\
+-build/include_order,\
+-build/include_subdir,\
+-whitespace/comments,\
+-whitespace/braces,\
+-whitespace/tab,\
+-whitespace/semicolon,\
+-whitespace/indent,\
++readability/alt_tokens,\
+-readability/todo,\
+-runtime/references
+
+SRC=.
+
+#exclude
+GIT=$SRC/.git
+GSL=$SRC/GSL
+ETC=$SRC/etc
+CMAKE_FILES=$SRC/CMakeFiles
+
+find $SRC -regex '.*\.\(h\|cpp\|c\)$' -exec $CPPLINT --filter=$FILTER {} \; \
+	-o -type d \( -path $GIT -o -path $GSL -o -path $ETC \) -prune

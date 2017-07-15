@@ -1,0 +1,16 @@
+#!/bin/sh
+
+SRC=.
+
+#exclude
+GIT=$SRC/.git
+GSL=$SRC/GSL
+
+STYLE="{BasedOnStyle: LLVM, IndentWidth: 8, UseTab: Always, BreakBeforeBraces: Linux, AllowShortIfStatementsOnASingleLine: false, IndentCaseLabels: false}"
+
+CLANG_FORMAT=/usr/bin/clang-format
+
+find $SRC -regex '.*\(h\|cpp\)$' -exec \
+     $CLANG_FORMAT -style="$STYLE" -i {} \; \
+     -o \
+     \( -path $GIT -o -path $GSL \) -prune
