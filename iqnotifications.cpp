@@ -83,6 +83,7 @@ void IQNotifications::onCloseButtonPressed(int id)
 	emit notificationDroppedSignal(
 	    static_cast<IQNotification::id_t>(id),
 	    IQNotification::CR_NOTIFICATION_DISMISSED);
+	checkExtraNotifications();
 }
 
 void IQNotifications::onActionButtonPressed(int id, const QString &action)
