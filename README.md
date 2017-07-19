@@ -63,7 +63,7 @@ sudo apt install cmake qtbase5-dev qtdeclarative5-dev libqt5xdg-dev
 ```
 
 # Build
-To clone this repo this dependencies use `--recursive` flag:
+To clone this repo with dependencies (GSL) use `--recursive` flag:
 ```bash
 git clone --recursive git@github.com:RussianBruteForce/iq-notifier.git
 mkdir iq-notifier/build; cd iq-notifier/build
