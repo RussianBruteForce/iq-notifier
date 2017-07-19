@@ -59,12 +59,14 @@ Use `ag TODO` or your favorite IDE to find TODOs in code.
 
 # Build deps
 ```bash
-sudo apt install cmake  qtbase5-dev qtdeclarative5-dev libqt5xdg-dev
+sudo apt install cmake qtbase5-dev qtdeclarative5-dev libqt5xdg-dev
 ```
 
 # Build
+To clone this repo this dependencies use `--recursive` flag:
 ```bash
-mkdir build; cd build
+git clone --recursive git@github.com:RussianBruteForce/iq-notifier.git
+mkdir iq-notifier/build; cd iq-notifier/build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 ```
