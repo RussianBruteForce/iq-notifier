@@ -73,6 +73,14 @@ make
 
 Tested on ubuntu 16.04, GCC 5.4.0 and Clang 3.8.0.
 
+# Config
+Config path:`$XDG_CONFIG_HOME/iq-notifier/config` (`~/.config/iq-notifier/config`)
+
+All 'modules' of IQ Notifier should be enabled in config file explicitly. To copy example config execute from repo root:
+```bash
+cp config.example ~/.config/iq-notifier/config
+```
+
 # Deb package
 ```bash
 cpack
