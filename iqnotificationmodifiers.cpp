@@ -190,9 +190,14 @@ void IQNotificationModifiers::IconHandler::modify(IQNotification &notification)
 	toQmlAbsolutePath(icon_url);
 }
 
-IQNotificationModifiers::DefaultTimeout::DefaultTimeout(uint16_t msec)
-    : defaultTimeout{msec}
+IQNotificationModifiers::DefaultTimeout::DefaultTimeout()
+    : IQConfigurable{"default_timeout"}
 {
+	static constexpr auto real_default{3500};
+	defaultTimeout = static_cast<uint16_t>(
+	    config.value("default_timeout", real_default).toUInt());
+	if (defaultTimeout == 0)
+		defaultTimeout = real_default;
 }
 
 void IQNotificationModifiers::DefaultTimeout::modify(
@@ -203,6 +208,11 @@ void IQNotificationModifiers::DefaultTimeout::modify(
 		expire_timeout = static_cast<
 		    std::remove_reference_t<decltype(expire_timeout)>>(
 		    defaultTimeout);
+}
+
+IQNotificationModifiers::TitleToIcon::TitleToIcon()
+    : IQConfigurable{"title_to_icon"}
+{
 }
 
 void IQNotificationModifiers::TitleToIcon::modify(IQNotification &notification)
@@ -217,10 +227,11 @@ void IQNotificationModifiers::TitleToIcon::modify(IQNotification &notification)
 	}
 }
 
-IQNotificationModifiers::ReplaceMinusToDash::ReplaceMinusToDash(bool title,
-								bool body)
-    : fixTitle{title}, fixBody{body}
+IQNotificationModifiers::ReplaceMinusToDash::ReplaceMinusToDash()
+    : IQConfigurable{"replace_minus_to_dash"}
 {
+	fixTitle = config.value("title", true).toBool();
+	fixBody = config.value("body", true).toBool();
 }
 
 void IQNotificationModifiers::ReplaceMinusToDash::modify(
@@ -228,9 +239,9 @@ void IQNotificationModifiers::ReplaceMinusToDash::modify(
 {
 	N_TO_REFS(notification);
 	if (fixTitle)
-		replaceMinusToDash(notification.title);
+		replaceMinusToDash(title);
 	if (fixBody)
-		replaceMinusToDash(notification.body);
+		replaceMinusToDash(body);
 }
 
 void IQNotificationModifiers::ReplaceMinusToDash::replaceMinusToDash(
@@ -238,6 +249,12 @@ void IQNotificationModifiers::ReplaceMinusToDash::replaceMinusToDash(
 {
 	static QString minus{minusPattern}, dash{replaceTo};
 	str.replace(minus, dash);
+}
+
+IQNotificationModifiers::BodyToTitleWhenTitleIsAppName::
+    BodyToTitleWhenTitleIsAppName()
+    : IQConfigurable{"body_to_title_when_title_is_app_name"}
+{
 }
 
 void IQNotificationModifiers::BodyToTitleWhenTitleIsAppName::modify(

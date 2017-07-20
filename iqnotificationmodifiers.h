@@ -17,12 +17,13 @@
 
 #pragma once
 
+#include "iqconfig.h"
 #include "iqnotification.h"
 
 namespace IQNotificationModifiers
 {
 
-template <class T, class... A> IQNotificationModifier::ptr_t make(A &&... args)
+template <class T, class... A> std::unique_ptr<T> make(A &&... args)
 {
 	return std::make_unique<T>(std::forward<A>(args)...);
 }
@@ -37,29 +38,35 @@ struct IconHandler final : public IQNotificationModifier {
 	void modify(IQNotification &notification) final;
 };
 
-struct DefaultTimeout final : public IQNotificationModifier {
-	explicit DefaultTimeout(uint16_t msec);
+struct DefaultTimeout final : public IQNotificationModifier,
+			      public IQConfigurable {
+	DefaultTimeout();
 	void modify(IQNotification &notification) final;
 
       private:
 	uint16_t defaultTimeout;
 };
 
-struct TitleToIcon final : public IQNotificationModifier {
+struct TitleToIcon final : public IQNotificationModifier,
+			   public IQConfigurable {
+	TitleToIcon();
 	void modify(IQNotification &notification) final;
 };
 
-struct BodyToTitleWhenTitleIsAppName final : public IQNotificationModifier {
+struct BodyToTitleWhenTitleIsAppName final : public IQNotificationModifier,
+					     public IQConfigurable {
+	BodyToTitleWhenTitleIsAppName();
 	void modify(IQNotification &notification) final;
 };
 
-struct ReplaceMinusToDash final : public IQNotificationModifier {
-	explicit ReplaceMinusToDash(bool title = true, bool body = true);
+struct ReplaceMinusToDash final : public IQNotificationModifier,
+				  public IQConfigurable {
+	ReplaceMinusToDash();
 
 	void modify(IQNotification &notification) final;
 
       private:
-	const bool fixTitle, fixBody;
+	bool fixTitle, fixBody;
 
 	static void replaceMinusToDash(QString &str);
 
