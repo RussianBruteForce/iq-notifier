@@ -17,6 +17,7 @@
 
 import QtQuick 2.0
 import QtQuick.Layouts 1.1
+import IQNotifier 1.0
 
 IQFancyContainer {
     id: root
@@ -28,16 +29,24 @@ IQFancyContainer {
     property alias appName: bar.text
     property alias title: titleText.text
     property alias body: bodyText.text
-    property alias iconUrl: icon.source
+    property url iconUrl: ""
     property variant buttons: ""
 
     property alias expireTimeout: expirationBar.expireTimeout
     property bool expiration: false
 
-    property alias barHeight: bar.height
+    property int barHeight: IQNotifications.barHeight ?
+                                IQNotifications.barHeight :
+                                referenceHeight * barFactor
+    property int expirationBarHeight: IQNotifications.expirationBarHeight
 
     property int contentMargin: referenceHeight*spacingFactor*2
-    property int fontPointSize: referenceHeight * fontPointSizeFactor
+    property int fontPointSize: IQNotifications.fontSize ?
+                                    IQNotifications.fontSize :
+                                    referenceHeight * fontPointSizeFactor
+    property int iconSize: IQNotifications.iconSize ?
+                                    IQNotifications.iconSize :
+                                    referenceHeight * iconFactor
 
     property real barFactor: 0.148;
     property real iconFactor: 0.3;
@@ -48,7 +57,8 @@ IQFancyContainer {
     IQNotificationBar {
         id: bar
         bgColor: "#262d3a"
-        height: referenceHeight * barFactor;
+        height: barHeight;
+        visible: height
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
@@ -60,10 +70,33 @@ IQFancyContainer {
         anchors.top: bar.bottom
         anchors.left: parent.left
         color: Qt.lighter(bar.bgColor, 1.3)
-        height: referenceHeight / 200
+        height: expirationBarHeight
         // Crutch to run animation after object created finished
         runnig: expiration && root.height == root.referenceHeight && root.height > 0
     }
+
+    Component {
+        id: iconComponent
+        Image {
+            id: icon
+            source: iconUrl
+            sourceSize.width: iconSize
+            sourceSize.height: iconSize
+            fillMode: Image.PreserveAspectFit
+            visible: source.toString().length
+        }
+    }
+
+    Loader {
+        id: iconAtLeftSideLoader
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.top: bar.bottom
+        anchors.leftMargin: contentMargin
+        visible: sourceComponent != undefined
+        sourceComponent: IQNotifications.iconPosition ? iconComponent : undefined
+    }
+
 
     ColumnLayout {
         id: column
@@ -75,17 +108,16 @@ IQFancyContainer {
         anchors.top: bar.bottom
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        Image {
-            id: icon
-            sourceSize.width: referenceHeight * iconFactor
-            sourceSize.height: referenceHeight * iconFactor
+        anchors.left: iconAtLeftSideLoader.right
+
+        Loader {
+            visible: sourceComponent != undefined
+            sourceComponent: !IQNotifications.iconPosition ? iconComponent : undefined
             Layout.fillWidth: !buttonsLayout.visible
             Layout.fillHeight: Layout.fillWidth
-            fillMode: Image.PreserveAspectFit
-            visible: source.toString().length
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         }
+
         Text {
             id: titleText
             visible: text.length
