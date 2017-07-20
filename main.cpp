@@ -50,8 +50,9 @@ gsl::not_null<IQDBusService *> get_service()
 		->addModifier(make<TitleToIcon>())
 		->addModifier(make<IconHandler>())
 		->addModifier(make<BodyToTitleWhenTitleIsAppName>())
-		->addModifier(make<DefaultTimeout>(3500))
+		->addModifier(make<DefaultTimeout>())
 		->addModifier(make<ReplaceMinusToDash>());
+
 	return dbus_service;
 }
 
