@@ -124,7 +124,7 @@ void IQTopDown::recalculateAvailableScreenGeometry()
 QRect IQTopDown::availableGeometry() const
 {
 	auto ret = availableScreenGeometry;
-	ret.adjust(0, spacing, 0, 0);
+	ret.adjust(0, dispositions.empty() ? 0 : spacing, 0, 0);
 
 	if (dispositions.empty())
 		return ret;
