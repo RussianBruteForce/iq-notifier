@@ -33,7 +33,8 @@
 
 #include "iqconfig.h"
 
-class IQNotifications final : public IQNotificationReceiver
+class IQNotifications final : public IQNotificationReceiver,
+			      public IQConfigurable
 {
 	Q_OBJECT
 	Q_PROPERTY(int extraNotifications READ extraNotificationsCount NOTIFY
@@ -88,7 +89,6 @@ class IQNotifications final : public IQNotificationReceiver
 	IQ_CONF_FACTOR(HEIGHT, "height", 0.28198433420365535248)
 
 	IQDisposition::ptr_t disposition;
-	const IQConfig config;
 	std::queue<IQNotification> extraNotifications;
 
 	int spacing() const;
