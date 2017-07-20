@@ -17,18 +17,14 @@
 
 #include "iqdbusservice.h"
 
+#include "iqconfig.h"
+
 QString IQDBusService::versionString()
 {
-	constexpr auto delimiter = '.';
-	static auto major = QString::number(IQ_VERSION_MAJOR);
-	static auto minor = QString::number(IQ_VERSION_MINOR);
-	static auto patch = QString::number(IQ_VERSION_PATCH);
-	static auto app_version = major + delimiter + minor + delimiter + patch;
-
-	return app_version;
+	return IQConfig::applicationVersion();
 }
 
-QString IQDBusService::appString() { return QStringLiteral("iq-notifier"); }
+QString IQDBusService::appString() { return IQConfig::applicationName(); }
 
 IQDBusService *IQDBusService::connectReceiver(IQNotificationReceiver *receiver)
 {
