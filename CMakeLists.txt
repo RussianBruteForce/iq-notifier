@@ -10,6 +10,8 @@ set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 add_definitions(-DIQ_VERSION_MAJOR=${VERSION_MAJOR})
 add_definitions(-DIQ_VERSION_MINOR=${VERSION_MINOR})
 add_definitions(-DIQ_VERSION_PATCH=${VERSION_PATCH})
+add_definitions(-DIQ_VERSION=${VERSION})
+add_definitions(-DIQ_APP_NAME=${PROJECT_NAME})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra")
 
