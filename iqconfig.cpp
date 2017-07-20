@@ -19,13 +19,11 @@
 
 #include <qt5xdg/XdgDirs>
 
-#include <QDebug>
 
 IQConfig::IQConfig(const QString &category_)
     : category{category_ + '/'}, settings{std::make_unique<QSettings>(
 				     getConfigFileName(), QSettings::IniFormat)}
 {
-	qDebug() << "config:" << settings->fileName();
 	if (category.isEmpty())
 		throw std::invalid_argument(
 		    "IQConfig: category can not be empty!");
