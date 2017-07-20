@@ -42,16 +42,18 @@ gsl::not_null<IQDBusService *> get_service()
 	using namespace IQNotificationModifiers; // NOLINT
 
 	auto disposition = std::make_unique<IQTopDown>();
-	auto notifications = IQNotifications::get(std::move(disposition));
 	auto dbus_service =
 	    (new IQDBusService)
-		->connectReceiver(notifications)
 		->addModifier(make<IDGenerator>())
 		->addModifier(make<TitleToIcon>())
 		->addModifier(make<IconHandler>())
 		->addModifier(make<BodyToTitleWhenTitleIsAppName>())
 		->addModifier(make<DefaultTimeout>())
 		->addModifier(make<ReplaceMinusToDash>());
+
+	auto notifications = IQNotifications::get(std::move(disposition));
+	if (notifications->isEnabled())
+		dbus_service->connectReceiver(notifications);
 
 	return dbus_service;
 }
