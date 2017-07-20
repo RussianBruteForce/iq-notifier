@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.0)
 project(iq-notifier)
 
 set(VERSION_MAJOR 0)
-set(VERSION_MINOR 1)
-set(VERSION_PATCH 1)
+set(VERSION_MINOR 2)
+set(VERSION_PATCH 0)
 set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
 add_definitions(-DIQ_VERSION_MAJOR=${VERSION_MAJOR})
@@ -53,6 +53,7 @@ target_link_libraries(${PROJECT_NAME} Qt5::DBus)
 target_link_libraries(${PROJECT_NAME} Qt5Xdg)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(FILES "${CMAKE_SOURCE_DIR}/config.example" DESTINATION share/${PROJECT_NAME})
 
 ### CPack
 

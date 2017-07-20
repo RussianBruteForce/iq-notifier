@@ -81,6 +81,11 @@ All 'modules' of IQ Notifier should be enabled in config file explicitly. To cop
 cp config.example ~/.config/iq-notifier/config
 ```
 
+Or, if you installed IQ Notifier from package:
+```bash
+cp /usr/share/iq-notifier/config.example ~/.config/iq-notifier/config
+```
+
 # Deb package
 ```bash
 cpack
