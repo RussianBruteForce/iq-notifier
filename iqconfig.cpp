@@ -56,3 +56,14 @@ QString IQConfig::getConfigFileName()
 	    XdgDirs::configHome() + '/' + applicationName() + "/config";
 	return config;
 }
+
+IQConfigurable::IQConfigurable(const QString &name) : name_{name}, config{name_}
+{
+}
+
+const QString &IQConfigurable::name() const { return name_; }
+
+bool IQConfigurable::isEnabled() const
+{
+	return config.value("enabled", false).toBool();
+}

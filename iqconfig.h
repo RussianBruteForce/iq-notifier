@@ -47,3 +47,14 @@ class IQConfig
 
 	static QString getConfigFileName();
 };
+
+struct IQConfigurable {
+	IQConfigurable() = delete;
+	const QString &name() const;
+	bool isEnabled() const;
+
+      protected:
+	IQConfigurable(const QString &name);
+	const QString name_;
+	const IQConfig config;
+};
