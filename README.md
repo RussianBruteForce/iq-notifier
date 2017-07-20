@@ -47,7 +47,6 @@ To make opacity [of popups] works you need compositing. Try `compton -CG `, that
 
 # TODO
 - Notifiaction history
-- Config support
 - Fit size of notification to content size
 - Theming support
 - HiDPI support
