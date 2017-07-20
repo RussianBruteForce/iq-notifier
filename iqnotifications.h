@@ -31,6 +31,8 @@
 #include "iqdisposition.h"
 #include "iqnotificationreceiver.h"
 
+#include "iqconfig.h"
+
 class IQNotifications final : public IQNotificationReceiver
 {
 	Q_OBJECT
@@ -76,11 +78,24 @@ class IQNotifications final : public IQNotificationReceiver
 	void onDropVisible();
 
       private:
+	IQ_CONF_VAR(SPACING, "spacing", 0)
+	IQ_CONF_FACTOR(GLOBAL_MARGINS, "global_margins", 0.02610966057441253264)
+	IQ_CONF_FACTOR(EXTRA_WINDOW_WIDTH, "extra_window_width",
+		       0.21961932650073206442)
+	IQ_CONF_FACTOR(EXTRA_WINDOW_HEIGHT, "extra_window_height",
+		       0.08355091383812010444 / 2)
+	IQ_CONF_FACTOR(WIDTH, "width", 0.21961932650073206442)
+	IQ_CONF_FACTOR(HEIGHT, "height", 0.28198433420365535248)
+
 	IQDisposition::ptr_t disposition;
+	const IQConfig config;
 	std::queue<IQNotification> extraNotifications;
 
 	int spacing() const;
 	QMargins margins() const;
+	QSize windowSize() const;
+	QSize windowSize(const QString &width_key, const QString &height_key,
+			 double width_factor, double height_factor) const;
 	bool createNotificationIfSpaceAvailable(const IQNotification &n);
 	void checkExtraNotifications();
 };

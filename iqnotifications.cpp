@@ -17,14 +17,20 @@
 
 #include "iqnotifications.h"
 
+#include <experimental/optional>
 #include <memory>
 #include <utility>
 
+#include <QString>
+#include <QStringList>
 #include <QTimer>
+
+template <class T> using optional = std::experimental::optional<T>;
 
 IQNotifications::IQNotifications(IQDisposition::ptr_t disposition_,
 				 QObject *parent)
-    : IQNotificationReceiver(parent), disposition{std::move(disposition_)}
+    : IQNotificationReceiver(parent), disposition{std::move(disposition_)},
+      config{"ui"}
 {
 	if (!disposition)
 		throw std::invalid_argument{
@@ -124,28 +130,99 @@ void IQNotifications::onDropVisible()
 
 int IQNotifications::spacing() const
 {
-	return 0; // No spacing
+	return config.value(CONFIG_SPACING, CONFIG_SPACING_DEFAULT).toInt();
 }
 
 QMargins IQNotifications::margins() const
 {
-	static constexpr auto MARGIN_FACTOR{0.02610966057441253264};
-	auto screen = disposition->screen()->availableSize();
+	static auto string_list_to_margins =
+	    [](QStringList list) -> optional<QMargins> {
+		enum Sides { LEFT = 0, TOP, RIGHT, BOTTOM, SIZE };
 
-	auto margin = MARGIN_FACTOR * screen.height();
-	auto m = static_cast<int>(margin);
-	return {m, m, m, m};
+		if (list.size() != SIZE)
+			return {};
+
+		auto get = [&list](auto index) {
+			bool ok{true};
+			auto value = list[index].toInt(&ok);
+			if (!ok)
+				throw std::logic_error{"IQConfig: "
+						       "ui::global_margins "
+						       "wrong value!"};
+			return value;
+		};
+
+		QMargins ret;
+		ret.setLeft(get(LEFT));
+		ret.setTop(get(TOP));
+		ret.setRight(get(RIGHT));
+		ret.setBottom(get(BOTTOM));
+		return {ret};
+	};
+
+	auto config_field = config.value(CONFIG_GLOBAL_MARGINS);
+	auto config_margin =
+	    string_list_to_margins(config_field.toStringList());
+	if (config_margin) {
+		return *config_margin;
+	} else {
+		auto screen = disposition->screen()->availableSize();
+		auto margin = GLOBAL_MARGINS_DEFAULT_FACTOR * screen.height();
+		auto m = static_cast<int>(margin);
+		return {m, m, m, m};
+	}
+}
+
+QSize IQNotifications::windowSize() const
+{
+	return windowSize(CONFIG_WIDTH, CONFIG_HEIGHT, WIDTH_DEFAULT_FACTOR,
+			  HEIGHT_DEFAULT_FACTOR);
+}
+
+QSize IQNotifications::windowSize(const QString &width_key,
+				  const QString &height_key,
+				  double width_factor,
+				  double height_factor) const
+{
+	// TODO: cache values
+
+	auto get_window_size_from_config =
+	    [width_key, height_key](const auto &config) -> optional<QSize> {
+		auto get = [&config](auto key) {
+			bool ok{true};
+			auto value = config.value(key, 0).toInt(&ok);
+			if (!ok || value < 0)
+				throw std::logic_error{"IQConfig: window or "
+						       "extra_window size "
+						       "wrong value!"};
+			return value;
+		};
+
+		auto w = get(width_key);
+		auto h = get(height_key);
+
+		if (!w || !h)
+			return {};
+		else
+			return {QSize{w, h}};
+	};
+
+	auto config_size = get_window_size_from_config(config);
+	if (config_size) {
+		return *config_size;
+	} else {
+		auto screen = disposition->screen()->availableSize();
+		auto w = width_factor * screen.width();
+		auto h = height_factor * screen.height();
+		return QSize{static_cast<int>(w), static_cast<int>(h)};
+	}
 }
 
 QSize IQNotifications::extraWindowSize() const
 {
-	static const auto WIDTH_FACTOR{0.21961932650073206442};
-	static const auto HEIGHT_FACTOR{0.08355091383812010444 / 2}; // Magic…
-	auto screen = disposition->screen()->availableSize();
-
-	auto w = WIDTH_FACTOR * screen.width();
-	auto h = HEIGHT_FACTOR * screen.height();
-	return QSize{static_cast<int>(w), static_cast<int>(h)};
+	return windowSize(CONFIG_EXTRA_WINDOW_WIDTH, CONFIG_EXTRA_WINDOW_HEIGHT,
+			  EXTRA_WINDOW_WIDTH_DEFAULT_FACTOR,
+			  EXTRA_WINDOW_HEIGHT_DEFAULT_FACTOR);
 }
 
 QPoint IQNotifications::extraWindowPos() const
@@ -156,13 +233,11 @@ QPoint IQNotifications::extraWindowPos() const
 bool IQNotifications::createNotificationIfSpaceAvailable(
     const IQNotification &n)
 {
-	// TODO: make relative to screen DPI & content
-	static const QSize defaultSize{300, 216};
-
-	auto pos = disposition->poses(n.id, defaultSize);
+	auto size = windowSize();
+	auto pos = disposition->poses(n.id, size);
 	if (pos) {
 		auto id = n.replaces_id ? n.replaces_id : n.id;
-		emit createNotification(static_cast<int>(id), defaultSize, *pos,
+		emit createNotification(static_cast<int>(id), size, *pos,
 					n.expire_timeout, n.application, n.body,
 					n.title, n.icon_url, n.actions);
 		return true;
