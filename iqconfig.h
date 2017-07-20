@@ -46,6 +46,7 @@ class IQConfig
 	std::unique_ptr<QSettings> settings;
 
 	static QString getConfigFileName();
+	static bool copyConfigFileFromExample(const QString &destination);
 };
 
 struct IQConfigurable {

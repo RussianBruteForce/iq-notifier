@@ -19,6 +19,8 @@
 
 #include <qt5xdg/XdgDirs>
 
+#include <QFile>
+#include <QFileInfo>
 
 IQConfig::IQConfig(const QString &category_)
     : category{category_ + '/'}, settings{std::make_unique<QSettings>(
@@ -52,7 +54,26 @@ QString IQConfig::getConfigFileName()
 {
 	static auto config =
 	    XdgDirs::configHome() + '/' + applicationName() + "/config";
+
+	static QFileInfo config_file{config};
+	if (config_file.exists()) {
+		if (!config_file.isFile())
+			throw std::runtime_error{config.toStdString() +
+						 " is not a valid config file"};
+	} else {
+		copyConfigFileFromExample(config);
+	}
 	return config;
+}
+
+bool IQConfig::copyConfigFileFromExample(const QString &destination)
+{
+	static auto config_example_path =
+	    "/usr/share/" + applicationName() + "/config.example";
+	QFile config_example_file{config_example_path};
+	if (!config_example_file.exists())
+		return false;
+	return config_example_file.copy(destination);
 }
 
 IQConfigurable::IQConfigurable(const QString &name) : name_{name}, config{name_}
