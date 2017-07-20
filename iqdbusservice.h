@@ -17,12 +17,16 @@
 
 #pragma once
 
+#include <type_traits>
 #include <vector>
 
 #include <QObject>
 #include <QString>
 #include <QStringList>
 
+#include <gsl/gsl>
+
+#include "iqconfig.h"
 #include "iqnotificationreceiver.h"
 
 class IQDBusService : public QObject
@@ -36,9 +40,30 @@ class IQDBusService : public QObject
 	using QObject::QObject;
 
 	// TODO: use not_null
-	IQDBusService *connectReceiver(IQNotificationReceiver *receiver);
-	// TODO: use not_null
-	IQDBusService *addModifier(IQNotificationModifier::ptr_t modifier);
+	gsl::not_null<IQDBusService *>
+	connectReceiver(IQNotificationReceiver *receiver);
+
+	/*
+	 * For configurable modifiers we should check is it enabled in config
+	 */
+	template <class T>
+	typename std::enable_if_t<std::is_base_of<IQConfigurable, T>::value,
+				  gsl::not_null<IQDBusService *>>
+	addModifier(std::unique_ptr<T> modifier)
+	{
+		if (modifier->isEnabled())
+			modifers.push_back(std::move(modifier));
+		return this;
+	}
+
+	template <class T>
+	typename std::enable_if_t<!std::is_base_of<IQConfigurable, T>::value,
+				  gsl::not_null<IQDBusService *>>
+	addModifier(std::unique_ptr<T> modifier)
+	{
+		modifers.push_back(std::move(modifier));
+		return this;
+	}
 
 	// DBus interface
 	QStringList GetCapabilities();

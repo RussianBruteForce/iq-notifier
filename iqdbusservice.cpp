@@ -26,7 +26,8 @@ QString IQDBusService::versionString()
 
 QString IQDBusService::appString() { return IQConfig::applicationName(); }
 
-IQDBusService *IQDBusService::connectReceiver(IQNotificationReceiver *receiver)
+gsl::not_null<IQDBusService *>
+IQDBusService::connectReceiver(IQNotificationReceiver *receiver)
 {
 	connect(this, &IQDBusService::createNotificationSignal, receiver,
 		&IQNotificationReceiver::onCreateNotification);
@@ -36,13 +37,6 @@ IQDBusService *IQDBusService::connectReceiver(IQNotificationReceiver *receiver)
 		&IQDBusService::onActionInvoked);
 	connect(receiver, &IQNotificationReceiver::notificationDroppedSignal,
 		this, &IQDBusService::onNotificationDropped);
-	return this;
-}
-
-IQDBusService *
-IQDBusService::addModifier(IQNotificationModifier::ptr_t modifier)
-{
-	modifers.push_back(std::move(modifier));
 	return this;
 }
 
