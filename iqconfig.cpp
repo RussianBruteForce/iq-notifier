@@ -25,6 +25,7 @@
 
 namespace
 {
+// TODO: refactor; taken from here: https://gist.github.com/ssendeavour/7324701
 static bool copyRecursively(const QString &srcFilePath,
 			    const QString &tgtFilePath)
 {
@@ -38,7 +39,7 @@ static bool copyRecursively(const QString &srcFilePath,
 		QStringList fileNames = sourceDir.entryList(
 		    QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot |
 		    QDir::Hidden | QDir::System);
-		foreach (const QString &fileName, fileNames) {
+		for (const QString &fileName : fileNames) {
 			const QString newSrcFilePath =
 			    srcFilePath + QLatin1Char('/') + fileName;
 			const QString newTgtFilePath =
@@ -47,7 +48,7 @@ static bool copyRecursively(const QString &srcFilePath,
 				return false;
 		}
 	} else {
-		if (!QFile::copy(srcFilePath, tgtFilePath))
+		if (!QFile::copy(srcFilePath, tgtFilePath)) // NOLINT
 			return false;
 	}
 	return true;
