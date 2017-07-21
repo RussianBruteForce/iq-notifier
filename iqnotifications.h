@@ -39,13 +39,13 @@ class IQNotifications final : public IQNotificationReceiver,
 	Q_OBJECT
 	Q_PROPERTY(int extraNotifications READ extraNotificationsCount NOTIFY
 		       extraNotificationsCountChanged)
-	Q_PROPERTY(QSize extraWindowSize READ extraWindowSize)
-	Q_PROPERTY(QPoint extraWindowPos READ extraWindowPos)
-	Q_PROPERTY(bool iconPosition READ iconPosition)
-	Q_PROPERTY(uint fontSize READ fontSize)
-	Q_PROPERTY(uint iconSize READ iconSize)
-	Q_PROPERTY(uint barHeight READ barHeight)
-	Q_PROPERTY(uint expirationBarHeight READ expirationBarHeight)
+	Q_PROPERTY(QSize extraWindowSize READ extraWindowSize CONSTANT)
+	Q_PROPERTY(QPoint extraWindowPos READ extraWindowPos CONSTANT)
+	Q_PROPERTY(bool iconPosition READ iconPosition CONSTANT)
+	Q_PROPERTY(uint fontSize READ fontSize CONSTANT)
+	Q_PROPERTY(uint iconSize READ iconSize CONSTANT)
+	Q_PROPERTY(uint barHeight READ barHeight CONSTANT)
+	Q_PROPERTY(uint expirationBarHeight READ expirationBarHeight CONSTANT)
 
 	IQNotifications(IQDisposition::ptr_t disposition_,
 			QObject *parent = nullptr);
