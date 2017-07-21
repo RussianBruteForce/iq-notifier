@@ -17,7 +17,7 @@ IQ Notifier is fancy and flexible notification daemon.
 ![2](/screenshots/2.png?raw=true)
 
 ![3](/screenshots/3.png?raw=true)
-![4](/screenshots/3.png?raw=true)
+![4](/screenshots/4.png?raw=true)
 
 ## Features
 ### TitleToIcon
