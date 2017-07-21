@@ -37,7 +37,8 @@ class IQConfig
 	static QString applicationName();
 	static QString configDir();
 
-	explicit IQConfig(const QString &category_, const QString &fileName_ = "config");
+	explicit IQConfig(const QString &category_,
+			  const QString &fileName_ = "config");
 
 	QVariant value(const QString &key,
 		       const QVariant &defaultValue = QVariant()) const;
@@ -49,6 +50,7 @@ class IQConfig
 
 	QString getConfigFileName() const;
 	bool copyConfigFileFromExample(const QString &destination) const;
+	bool copyThemesFromShare(const QString &destination) const;
 };
 
 struct IQConfigurable {

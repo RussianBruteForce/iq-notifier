@@ -19,8 +19,40 @@
 
 #include <qt5xdg/XdgDirs>
 
+#include <QDir>
 #include <QFile>
 #include <QFileInfo>
+
+namespace
+{
+static bool copyRecursively(const QString &srcFilePath,
+			    const QString &tgtFilePath)
+{
+	QFileInfo srcFileInfo(srcFilePath);
+	if (srcFileInfo.isDir()) {
+		QDir targetDir(tgtFilePath);
+		targetDir.cdUp();
+		if (!targetDir.mkdir(QFileInfo(tgtFilePath).fileName()))
+			return false;
+		QDir sourceDir(srcFilePath);
+		QStringList fileNames = sourceDir.entryList(
+		    QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot |
+		    QDir::Hidden | QDir::System);
+		foreach (const QString &fileName, fileNames) {
+			const QString newSrcFilePath =
+			    srcFilePath + QLatin1Char('/') + fileName;
+			const QString newTgtFilePath =
+			    tgtFilePath + QLatin1Char('/') + fileName;
+			if (!copyRecursively(newSrcFilePath, newTgtFilePath))
+				return false;
+		}
+	} else {
+		if (!QFile::copy(srcFilePath, tgtFilePath))
+			return false;
+	}
+	return true;
+}
+} // anonymouse namespace
 
 IQConfig::IQConfig(const QString &category_, const QString &fileName_)
     : category{category_.isEmpty() ? "" : category_ + '/'}, fileName{fileName_},
@@ -64,7 +96,13 @@ QString IQConfig::getConfigFileName() const
 			throw std::runtime_error{config.toStdString() +
 						 " is not a valid config file"};
 	} else {
-		copyConfigFileFromExample(config);
+		QDir dir;
+		dir.mkpath(configDir());
+		if (config.contains("/themes/default/theme"))
+			copyThemesFromShare(
+			    QString{config}.replace("/default/theme", ""));
+		else
+			copyConfigFileFromExample(config);
 	}
 	return config;
 }
@@ -79,8 +117,13 @@ bool IQConfig::copyConfigFileFromExample(const QString &destination) const
 	return config_example_file.copy(destination);
 }
 
-IQConfigurable::IQConfigurable(const QString &name)
-    : name_{name}, config{name_}
+bool IQConfig::copyThemesFromShare(const QString &destination) const
+{
+	auto shareThemesPath = "/usr/share/" + applicationName() + "/themes";
+	return copyRecursively(shareThemesPath, destination);
+}
+
+IQConfigurable::IQConfigurable(const QString &name) : name_{name}, config{name_}
 {
 }
 
