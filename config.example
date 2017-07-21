@@ -2,25 +2,25 @@
 ;
 ; 'enabled' is false by default everywhere
 
-[general]
-theme = "default"
+[theme]
+theme_name = default
 
 [popup_notifications]
 ; you can disable floating notifications
 enabled = true
 
 ; spacing between notifications
-spacing = 20
+spacing = 5
 ; margins between screen borders and notification area
 global_margins = 0,20,20,0 
 
 ; you should set both width and height to see changes
-;width = 400
-;height = 100
+width = 400
+height = 132
 
 ; you should set both width and height to see changes
-;extra_window_width = 400
-;extra_window_height = 64
+extra_window_width = 400
+extra_window_height = 32
 
 ;;;;;;;;;; modifiers ;;;;;;;;;;
 
@@ -28,7 +28,7 @@ global_margins = 0,20,20,0
 ; be careful disabling this modifire!
 enabled = true
 ; 0 for default (3500)
-default_timeout = 1000
+;default_timeout = 1000
 
 ; try to find app icon when title is same as application name
 [title_to_icon]
