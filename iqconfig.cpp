@@ -23,13 +23,10 @@
 #include <QFileInfo>
 
 IQConfig::IQConfig(const QString &category_, const QString &fileName_)
-    : category{category_ + '/'}, fileName{fileName_},
+    : category{category_.isEmpty() ? "" : category_ + '/'}, fileName{fileName_},
       settings{std::make_unique<QSettings>(getConfigFileName(),
 					   QSettings::IniFormat)}
 {
-	if (category.isEmpty())
-		throw std::invalid_argument(
-		    "IQConfig: category can not be empty!");
 }
 
 QVariant IQConfig::value(const QString &key, const QVariant &defaultValue) const
