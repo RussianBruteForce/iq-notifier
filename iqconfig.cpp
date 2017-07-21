@@ -22,9 +22,10 @@
 #include <QFile>
 #include <QFileInfo>
 
-IQConfig::IQConfig(const QString &category_)
-    : category{category_ + '/'}, settings{std::make_unique<QSettings>(
-				     getConfigFileName(), QSettings::IniFormat)}
+IQConfig::IQConfig(const QString &category_, const QString &fileName_)
+    : category{category_ + '/'}, fileName{fileName_},
+      settings{std::make_unique<QSettings>(getConfigFileName(),
+					   QSettings::IniFormat)}
 {
 	if (category.isEmpty())
 		throw std::invalid_argument(
@@ -43,6 +44,12 @@ QString IQConfig::applicationName()
 	return QStringLiteral(IQ_MACRO_STRING(IQ_APP_NAME));
 }
 
+QString IQConfig::configDir()
+{
+	static auto configDir = XdgDirs::configHome() + '/' + applicationName();
+	return configDir;
+}
+
 QString IQConfig::applicationVersion()
 {
 	return QStringLiteral(IQ_MACRO_STRING(IQ_VERSION));
@@ -50,12 +57,11 @@ QString IQConfig::applicationVersion()
 #undef IQ_MACRO_STRING__
 #undef IQ_MACRO_STRING
 
-QString IQConfig::getConfigFileName()
+QString IQConfig::getConfigFileName() const
 {
-	static auto config =
-	    XdgDirs::configHome() + '/' + applicationName() + "/config";
+	auto config = configDir() + '/' + fileName;
+	QFileInfo config_file{config};
 
-	static QFileInfo config_file{config};
 	if (config_file.exists()) {
 		if (!config_file.isFile())
 			throw std::runtime_error{config.toStdString() +
@@ -66,17 +72,18 @@ QString IQConfig::getConfigFileName()
 	return config;
 }
 
-bool IQConfig::copyConfigFileFromExample(const QString &destination)
+bool IQConfig::copyConfigFileFromExample(const QString &destination) const
 {
-	static auto config_example_path =
-	    "/usr/share/" + applicationName() + "/config.example";
+	auto config_example_path =
+	    "/usr/share/" + applicationName() + '/' + fileName + ".example";
 	QFile config_example_file{config_example_path};
 	if (!config_example_file.exists())
 		return false;
 	return config_example_file.copy(destination);
 }
 
-IQConfigurable::IQConfigurable(const QString &name) : name_{name}, config{name_}
+IQConfigurable::IQConfigurable(const QString &name, const QString &fileName_)
+    : name_{name}, config{name_, fileName_}
 {
 }
 

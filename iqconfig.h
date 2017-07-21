@@ -35,18 +35,20 @@ class IQConfig
       public:
 	static QString applicationVersion();
 	static QString applicationName();
+	static QString configDir();
 
-	IQConfig(const QString &category_);
+	IQConfig(const QString &category_, const QString &fileName_);
 
 	QVariant value(const QString &key,
 		       const QVariant &defaultValue = QVariant()) const;
 
       private:
 	const QString category;
+	const QString fileName;
 	std::unique_ptr<QSettings> settings;
 
-	static QString getConfigFileName();
-	static bool copyConfigFileFromExample(const QString &destination);
+	QString getConfigFileName() const;
+	bool copyConfigFileFromExample(const QString &destination) const;
 };
 
 struct IQConfigurable {
@@ -55,7 +57,8 @@ struct IQConfigurable {
 	bool isEnabled() const;
 
       protected:
-	IQConfigurable(const QString &name);
+	explicit IQConfigurable(const QString &name,
+				const QString &fileName_ = "config");
 	const QString name_;
 	const IQConfig config;
 };
