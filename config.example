@@ -2,7 +2,7 @@
 ;
 ; 'enabled' is false by default everywhere
 
-[ui]
+[popup_notifications]
 ; you can disable floating notifications
 enabled = true
 

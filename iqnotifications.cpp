@@ -29,7 +29,7 @@ template <class T> using optional = std::experimental::optional<T>;
 
 IQNotifications::IQNotifications(IQDisposition::ptr_t disposition_,
 				 QObject *parent)
-    : IQNotificationReceiver(parent), IQConfigurable{"ui"},
+    : IQNotificationReceiver(parent), IQConfigurable{"popup_notifications"},
       disposition{std::move(disposition_)}
 {
 	if (!disposition)
