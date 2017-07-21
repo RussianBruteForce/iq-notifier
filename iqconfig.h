@@ -37,7 +37,7 @@ class IQConfig
 	static QString applicationName();
 	static QString configDir();
 
-	IQConfig(const QString &category_, const QString &fileName_);
+	explicit IQConfig(const QString &category_, const QString &fileName_ = "config");
 
 	QVariant value(const QString &key,
 		       const QVariant &defaultValue = QVariant()) const;

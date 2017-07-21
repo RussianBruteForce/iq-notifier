@@ -80,7 +80,7 @@ bool IQConfig::copyConfigFileFromExample(const QString &destination) const
 }
 
 IQConfigurable::IQConfigurable(const QString &name)
-    : name_{name}, config{name_, "config"}
+    : name_{name}, config{name_}
 {
 }
 
