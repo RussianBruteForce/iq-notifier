@@ -17,6 +17,7 @@ IQ Notifier is fancy and flexible notification daemon.
 ![2](/screenshots/2.png?raw=true)
 
 ![3](/screenshots/3.png?raw=true)
+![4](/screenshots/3.png?raw=true)
 
 ## Features
 ### TitleToIcon
@@ -37,10 +38,11 @@ Unused parts of notifications will not shown.
 ### Multiple actions
 Buttons row at the bottom. :)
 
-### Flexidble
-You can configure most parts of IQ Notifier or rewrite some parts as you want. 
+### Theming support
+Pony theme in default package: just change `theme_name` to `pony` in config file!
 
-But currently no config/args support. Feel free to contribute.
+### Flexidble
+You can configure most parts of IQ Notifier. Look at config file.
 
 # Compositing
 To make opacity [of popups] works you need compositing. Try `compton -CG `, that should work.
@@ -48,7 +50,6 @@ To make opacity [of popups] works you need compositing. Try `compton -CG `, that
 # TODO
 - Notifiaction history
 - Fit size of notification to content size
-- Theming support
 - HiDPI support
 - Multiple monitor support
 - More features
@@ -73,17 +74,19 @@ make
 Tested on ubuntu 16.04, GCC 5.4.0 and Clang 3.8.0.
 
 # Config
-Config path:`$XDG_CONFIG_HOME/iq-notifier/config` (`~/.config/iq-notifier/config`)
+Config path: `$XDG_CONFIG_HOME/iq-notifier/config` (`~/.config/iq-notifier/config`)
 
 All 'modules' of IQ Notifier should be enabled in config file explicitly. To copy example config execute from repo root:
 ```bash
 cp config.example ~/.config/iq-notifier/config
 ```
 
-Or, if you installed IQ Notifier from package:
-```bash
-cp /usr/share/iq-notifier/config.example ~/.config/iq-notifier/config
-```
+Or, if you installed IQ Notifier from package jut run it. Config will be copied to your home dir automatically at first start.
+
+
+# Themes
+Theme is a directory with `theme` file which is simple text. For default themes look at `/usr/share/iq-notifier/themes` dir. They will be copied to your home dir automatically at first start.
+Themes must be placed in `$XDG_CONFIG_HOME/iq-notifier/themes` (`~/.config/iq-notifier/themes`) directory.
 
 # Deb package
 ```bash
@@ -94,7 +97,7 @@ sudo apt installf -f
 ```
 
 # Contributions
-Feel free to make pull requests/fork this project. You can also contact me vie e-mail: [bruteforce@sigil.tk](mailto:bruteforce@sigil.tk)
+Feel free to make pull requests/fork this project. You can also contact me via e-mail: [bruteforce@sigil.tk](mailto:bruteforce@sigil.tk)
 
 You also need `clang-format` and `cpplint`.
 
