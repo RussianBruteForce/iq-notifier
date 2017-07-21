@@ -12,5 +12,6 @@
         <file>IQExpirationBar.qml</file>
         <file>IQExtraNotifications.qml</file>
         <file>img/closeVisible.png</file>
+        <file>img/closeAll.png</file>
     </qresource>
 </RCC>
