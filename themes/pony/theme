@@ -1,0 +1,50 @@
+; IQ Notifier My Little Pony theme
+;
+; if size properties are not set, IQ Notifier will try to automatically adjust their values
+
+[popup_notifications]
+; default 120
+drop_animation_duration = 120
+
+; default 120
+show_animation_duration = 120
+
+; set to 'left' if you want to show icon at left side
+icon_position = left
+
+bar_height = 32
+
+; default value: 0 (invisible)
+; fancy trick: make expiration_bar_height same as window height
+expiration_bar_height = 1
+
+font_size = 12
+
+bar_font_size = 10
+
+; if not set, IQ Notifier will try to automatically adjust icon size
+icon_size = 72
+
+; size scale of button images
+close_button_image_scale = 0.7
+extra_button_image_scale = 0.7
+
+; color name or HTML code
+bg_color = #488295
+bar_bg_color = #54909d
+bar_text_color = #33001b
+expiration_bar_color = #6f80a5
+title_text_color = #33001b
+body_text_color = #074552
+button_bg_color = #75a9b6
+button_text_color = #074552
+extra_bg_color = #54909d
+extra_unread_circle_color = #d74a37
+extra_unread_text_color = white
+
+; relative to this file directory
+bg_image = bg.png
+close_button_image = close.png
+extra_close_button_image = closeExtra.png
+extra_close_all_button_image = closeAll.png
+extra_close_visible_button_image = closeVisible.png

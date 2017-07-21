@@ -54,6 +54,7 @@ target_link_libraries(${PROJECT_NAME} Qt5Xdg)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(FILES "${CMAKE_SOURCE_DIR}/config.example" DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/themes" DESTINATION share/${PROJECT_NAME})
 
 ### CPack
 
