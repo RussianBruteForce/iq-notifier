@@ -22,9 +22,9 @@ Rectangle {
     radius: height/5
     height: 64
     width: 128
-    color: "#343b4d"
 
     property alias text: buttonText.text
+    property alias textColor: buttonText.color
 
     signal clicked()
 

@@ -22,6 +22,11 @@ import IQNotifier 1.0
 IQFancyContainer {
     id: root
 
+    showDuration: IQThemes.notificationsTheme.showAnimationDuration
+    dropDuration: IQThemes.notificationsTheme.dropAnimationDuration
+    color: IQThemes.notificationsTheme.bgColor
+    bgImageSource: IQThemes.notificationsTheme.bgImage
+
     signal buttonClicked(string button)
 
     property int referenceHeight: 0
@@ -35,17 +40,17 @@ IQFancyContainer {
     property alias expireTimeout: expirationBar.expireTimeout
     property bool expiration: false
 
-    property int barHeight: IQTheme.barHeight ?
-                                IQTheme.barHeight :
+    property int barHeight: IQThemes.notificationsTheme.barHeight ?
+                                IQThemes.notificationsTheme.barHeight :
                                 referenceHeight * barFactor
-    property int expirationBarHeight: IQTheme.expirationBarHeight
+    property int expirationBarHeight: IQThemes.notificationsTheme.expirationBarHeight
 
     property int contentMargin: referenceHeight*spacingFactor*2
-    property int fontPointSize: IQTheme.fontSize ?
-                                    IQTheme.fontSize :
+    property int fontPointSize: IQThemes.notificationsTheme.fontSize ?
+                                    IQThemes.notificationsTheme.fontSize :
                                     referenceHeight * fontPointSizeFactor
-    property int iconSize: IQTheme.iconSize ?
-                                    IQTheme.iconSize :
+    property int iconSize: IQThemes.notificationsTheme.iconSize ?
+                                    IQThemes.notificationsTheme.iconSize :
                                     referenceHeight * iconFactor
 
     property real barFactor: 0.148;
@@ -56,7 +61,13 @@ IQFancyContainer {
 
     IQNotificationBar {
         id: bar
-        bgColor: "#262d3a"
+        color: IQThemes.notificationsTheme.barBgColor
+        textColor: IQThemes.notificationsTheme.barTextColor
+        textFontSize: IQThemes.notificationsTheme.barFontSize ?
+                          IQThemes.notificationsTheme.barFontSize :
+                          height*0.4
+        closeButtonImageSource: IQThemes.notificationsTheme.closeButtonImage
+        elementsScale: IQThemes.notificationsTheme.closeButtonImageScale
         height: barHeight;
         visible: height
         anchors.top: parent.top
@@ -69,9 +80,9 @@ IQFancyContainer {
         id: expirationBar
         anchors.top: bar.bottom
         anchors.left: parent.left
-        color: Qt.lighter(bar.bgColor, 1.3)
+        color: IQThemes.notificationsTheme.expirationBarColor
         height: expirationBarHeight
-        // Crutch to run animation after object created finished
+        // Crutch to run animation after object created
         runnig: expiration && root.height == root.referenceHeight && root.height > 0
     }
 
@@ -94,9 +105,8 @@ IQFancyContainer {
         anchors.top: bar.bottom
         anchors.leftMargin: contentMargin
         visible: sourceComponent != undefined
-        sourceComponent: IQTheme.iconPosition ? iconComponent : undefined
+        sourceComponent: IQThemes.notificationsTheme.iconPosition ? iconComponent : undefined
     }
-
 
     ColumnLayout {
         id: column
@@ -112,7 +122,7 @@ IQFancyContainer {
 
         Loader {
             visible: sourceComponent != undefined
-            sourceComponent: !IQTheme.iconPosition ? iconComponent : undefined
+            sourceComponent: !IQThemes.notificationsTheme.iconPosition ? iconComponent : undefined
             Layout.fillWidth: !buttonsLayout.visible
             Layout.fillHeight: Layout.fillWidth
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -121,7 +131,7 @@ IQFancyContainer {
         Text {
             id: titleText
             visible: text.length
-            color: "#ffffff"
+            color: IQThemes.notificationsTheme.titleTextColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.pointSize: root.fontPointSize
@@ -133,7 +143,7 @@ IQFancyContainer {
         }
         Text {
             id: bodyText
-            color: "#92969c"
+            color: IQThemes.notificationsTheme.bodyTextColor
             visible: text.length
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -153,6 +163,8 @@ IQFancyContainer {
                 model: buttons
                 IQButton {
                     height: referenceHeight * buttonFactor
+                    color: IQThemes.notificationsTheme.buttonBgColor
+                    textColor: IQThemes.notificationsTheme.buttonTextColor
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     text: modelData.text

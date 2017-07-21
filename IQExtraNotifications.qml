@@ -27,8 +27,9 @@ IQPopup {
     width: IQNotifications.extraWindowSize.width
     height: IQNotifications.extraWindowSize.height
 
-    property real elementsScale: 0.4
-    property color bgColor: "#262d3a"
+    property real buttonImageScale: IQThemes.notificationsTheme.extraButtonImageScale
+    property real unreadCircleScale: 0.6
+    property color bgColor: IQThemes.notificationsTheme.extraBgColor
 
     IQFancyContainer {
         id: iQFancyContainer
@@ -40,8 +41,8 @@ IQPopup {
         }
         Rectangle {
             id: circle
-            scale: 0.6
-            color: "#d74a37"
+            scale: unreadCircleScale
+            color: IQThemes.notificationsTheme.extraUreadCircleColor
             height: parent.height
             width: height
             radius: width
@@ -49,7 +50,7 @@ IQPopup {
             anchors.left: parent.left
             Text {
                 id: count
-                color: "#fff"
+                color: IQThemes.notificationsTheme.extraUreadTextColor
                 font.pointSize: parent.height/2.5
                 text: IQNotifications.extraNotifications
                 verticalAlignment: Text.AlignVCenter
@@ -69,9 +70,9 @@ IQPopup {
             width: height
             hoverEnabled: true
             Image {
-                scale: elementsScale
+                scale: buttonImageScale
                 anchors.fill: parent
-                source: "img/closeVisible.png"
+                source: IQThemes.notificationsTheme.extraCloseVisibleButtonImage
                 opacity: parent.containsMouse ? 0.85 : 1
             }
             onClicked: IQNotifications.onDropVisible()
@@ -87,9 +88,9 @@ IQPopup {
             width: height
             hoverEnabled: true
             Image {
-                scale: elementsScale
+                scale: buttonImageScale
                 anchors.fill: parent
-                source: "img/close.png"
+                source: IQThemes.notificationsTheme.extraCloseButtonImage
                 opacity: parent.containsMouse ? 0.85 : 1
             }
             onClicked: IQNotifications.onDropStacked()
@@ -102,16 +103,10 @@ IQPopup {
             anchors.right: parent.right
             width: height
             hoverEnabled: true
-            Rectangle {
-                color: "#d74a37"
-                anchors.fill: parent
-                radius: height
-                scale: 0.5
-            }
             Image {
-                scale: elementsScale
+                scale: buttonImageScale
                 anchors.fill: parent
-                source: "img/close.png"
+                source: IQThemes.notificationsTheme.extraCloseAllButtonImage
                 opacity: parent.containsMouse ? 0.85 : 1
             }
             onClicked: IQNotifications.onDropAll()

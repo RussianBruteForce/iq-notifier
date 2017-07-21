@@ -22,7 +22,10 @@ Item {
     signal closeClicked()
 
     property real elementsScale: 0.4
-    property alias bgColor: bg.color
+    property alias color: bg.color
+    property alias closeButtonImageSource: closeImage.source
+    property alias textColor: barText.color
+    property alias textFontSize: barText.font.pointSize
     property string text: Qt.string()
 
     Rectangle {
@@ -33,13 +36,11 @@ Item {
     Text {
         id: barText
         text: root.text.length === 0 ? qsTr("Notification") : root.text
-        color: "#92969c"
-        font.pointSize: root.height*elementsScale
         renderType: Text.NativeRendering
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         anchors.fill: parent
-        anchors.leftMargin: closeImage.width*(elementsScale)
+        anchors.leftMargin: closeImage.width*0.4
     }
 
     MouseArea {
@@ -55,7 +56,6 @@ Item {
             id: closeImage
             scale: elementsScale
             anchors.fill: parent
-            source: "img/close.png"
             opacity: parent.containsMouse ? 0.85 : 1
         }
         onClicked: closeClicked()

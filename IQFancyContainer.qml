@@ -29,6 +29,9 @@ Item {
     property int dropDuration: 120
     property real dropScaleDivisor: 1.3
 
+    property alias color: bg.color
+    property alias bgImageSource: bgImage.source
+
     /* SIGNALS */
 
     signal closeClicked()
@@ -48,7 +51,11 @@ Item {
     Rectangle {
         id: bg
         anchors.fill: parent
-        color: "#19202d"
+        Image {
+            id: bgImage
+            anchors.fill: parent
+            visible: source != undefined
+        }
     }
 
     ParallelAnimation {
