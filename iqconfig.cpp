@@ -82,8 +82,8 @@ bool IQConfig::copyConfigFileFromExample(const QString &destination) const
 	return config_example_file.copy(destination);
 }
 
-IQConfigurable::IQConfigurable(const QString &name, const QString &fileName_)
-    : name_{name}, config{name_, fileName_}
+IQConfigurable::IQConfigurable(const QString &name)
+    : name_{name}, config{name_, "config"}
 {
 }
 

@@ -57,8 +57,7 @@ struct IQConfigurable {
 	bool isEnabled() const;
 
       protected:
-	explicit IQConfigurable(const QString &name,
-				const QString &fileName_ = "config");
+	explicit IQConfigurable(const QString &name);
 	const QString name_;
 	const IQConfig config;
 };
