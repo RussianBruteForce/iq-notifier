@@ -68,43 +68,6 @@ int IQNotifications::extraNotificationsCount() const
 	return static_cast<int>(extraNotifications.size());
 }
 
-bool IQNotifications::iconPosition() const
-{
-	auto pos_var = config.value("icon_position");
-	if (pos_var.isValid()) {
-		auto pos = pos_var.toString();
-		return pos.compare("left", Qt::CaseInsensitive) == 0;
-	} else {
-		return false;
-	}
-}
-
-uint IQNotifications::fontSize() const
-{
-	return config.value(CONFIG_FONT_SIZE, CONFIG_FONT_SIZE_DEFAULT)
-	    .toUInt();
-}
-
-uint IQNotifications::iconSize() const
-{
-	return config.value(CONFIG_ICON_SIZE, CONFIG_ICON_SIZE_DEFAULT)
-	    .toUInt();
-}
-
-uint IQNotifications::barHeight() const
-{
-	return config.value(CONFIG_BAR_HEIGHT, CONFIG_BAR_HEIGHT_DEFAULT)
-	    .toUInt();
-}
-
-uint IQNotifications::expirationBarHeight() const
-{
-	return config
-	    .value(CONFIG_EXPIRATION_BAR_HEIGHT,
-		   CONFIG_EXPIRATION_BAR_HEIGHT_DEFAULT)
-	    .toUInt();
-}
-
 void IQNotifications::onCreateNotification(const IQNotification &n)
 {
 	if (!createNotificationIfSpaceAvailable(n)) {

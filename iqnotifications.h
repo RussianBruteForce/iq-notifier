@@ -41,11 +41,6 @@ class IQNotifications final : public IQNotificationReceiver,
 		       extraNotificationsCountChanged)
 	Q_PROPERTY(QSize extraWindowSize READ extraWindowSize CONSTANT)
 	Q_PROPERTY(QPoint extraWindowPos READ extraWindowPos CONSTANT)
-	Q_PROPERTY(bool iconPosition READ iconPosition CONSTANT)
-	Q_PROPERTY(uint fontSize READ fontSize CONSTANT)
-	Q_PROPERTY(uint iconSize READ iconSize CONSTANT)
-	Q_PROPERTY(uint barHeight READ barHeight CONSTANT)
-	Q_PROPERTY(uint expirationBarHeight READ expirationBarHeight CONSTANT)
 
 	IQNotifications(IQDisposition::ptr_t disposition_,
 			QObject *parent = nullptr);
@@ -57,12 +52,6 @@ class IQNotifications final : public IQNotificationReceiver,
 	QSize extraWindowSize() const;
 	QPoint extraWindowPos() const;
 	int extraNotificationsCount() const;
-	// True to move to left side, false for top
-	bool iconPosition() const;
-	uint fontSize() const;
-	uint iconSize() const;
-	uint barHeight() const;
-	uint expirationBarHeight() const;
 
       signals:
 	// Signals to QML
@@ -91,10 +80,6 @@ class IQNotifications final : public IQNotificationReceiver,
 
       private:
 	IQ_CONF_VAR(SPACING, "spacing", 0)
-	IQ_CONF_VAR(FONT_SIZE, "font_size", 0)
-	IQ_CONF_VAR(ICON_SIZE, "icon_size", 0)
-	IQ_CONF_VAR(BAR_HEIGHT, "bar_height", 0)
-	IQ_CONF_VAR(EXPIRATION_BAR_HEIGHT, "expiration_bar_height", 0)
 	IQ_CONF_FACTOR(GLOBAL_MARGINS, "global_margins", 0.02610966057441253264)
 	IQ_CONF_FACTOR(EXTRA_WINDOW_WIDTH, "extra_window_width",
 		       0.21961932650073206442)

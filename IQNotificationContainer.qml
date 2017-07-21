@@ -35,17 +35,17 @@ IQFancyContainer {
     property alias expireTimeout: expirationBar.expireTimeout
     property bool expiration: false
 
-    property int barHeight: IQNotifications.barHeight ?
-                                IQNotifications.barHeight :
+    property int barHeight: IQTheme.barHeight ?
+                                IQTheme.barHeight :
                                 referenceHeight * barFactor
-    property int expirationBarHeight: IQNotifications.expirationBarHeight
+    property int expirationBarHeight: IQTheme.expirationBarHeight
 
     property int contentMargin: referenceHeight*spacingFactor*2
-    property int fontPointSize: IQNotifications.fontSize ?
-                                    IQNotifications.fontSize :
+    property int fontPointSize: IQTheme.fontSize ?
+                                    IQTheme.fontSize :
                                     referenceHeight * fontPointSizeFactor
-    property int iconSize: IQNotifications.iconSize ?
-                                    IQNotifications.iconSize :
+    property int iconSize: IQTheme.iconSize ?
+                                    IQTheme.iconSize :
                                     referenceHeight * iconFactor
 
     property real barFactor: 0.148;
@@ -94,7 +94,7 @@ IQFancyContainer {
         anchors.top: bar.bottom
         anchors.leftMargin: contentMargin
         visible: sourceComponent != undefined
-        sourceComponent: IQNotifications.iconPosition ? iconComponent : undefined
+        sourceComponent: IQTheme.iconPosition ? iconComponent : undefined
     }
 
 
@@ -112,7 +112,7 @@ IQFancyContainer {
 
         Loader {
             visible: sourceComponent != undefined
-            sourceComponent: !IQNotifications.iconPosition ? iconComponent : undefined
+            sourceComponent: !IQTheme.iconPosition ? iconComponent : undefined
             Layout.fillWidth: !buttonsLayout.visible
             Layout.fillHeight: Layout.fillWidth
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter

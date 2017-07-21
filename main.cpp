@@ -26,6 +26,7 @@
 #include "iqexpirationcontroller.h"
 #include "iqnotificationmodifiers.h"
 #include "iqnotifications.h"
+#include "iqtheme.h"
 #include "iqtopdown.h"
 
 /*
@@ -36,6 +37,7 @@ static QDBusConnection
 connect_to_session_bus(gsl::not_null<IQDBusService *> service);
 static QObject *iqnotifications_provider(QQmlEngine *engine,
 					 QJSEngine *scriptEngine);
+static QObject *iqtheme_provider(QQmlEngine *engine, QJSEngine *scriptEngine);
 
 gsl::not_null<IQDBusService *> get_service()
 {
@@ -65,6 +67,14 @@ QObject *iqnotifications_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 	return IQNotifications::get();
 }
 
+QObject *iqtheme_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+	Q_UNUSED(engine);
+	Q_UNUSED(scriptEngine);
+	static IQTheme theme;
+	return &theme;
+}
+
 QDBusConnection connect_to_session_bus(gsl::not_null<IQDBusService *> service)
 {
 	auto connection = QDBusConnection::sessionBus();
@@ -91,6 +101,8 @@ int main(int argc, char *argv[])
 						"IQExpirationController");
 	qmlRegisterSingletonType<IQNotifications>(
 	    "IQNotifier", 1, 0, "IQNotifications", iqnotifications_provider);
+	qmlRegisterSingletonType<IQNotifications>("IQNotifier", 1, 0, "IQTheme",
+						  iqtheme_provider);
 
 	QQmlApplicationEngine engine;
 	engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

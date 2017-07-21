@@ -2,12 +2,12 @@
 ;
 ; 'enabled' is false by default everywhere
 
+[general]
+theme = "default"
+
 [popup_notifications]
 ; you can disable floating notifications
 enabled = true
-
-; set to 'left' if you want to show icon at left side
-;icon_position = left
 
 ; spacing between notifications
 spacing = 20
@@ -21,19 +21,6 @@ global_margins = 0,20,20,0
 ; you should set both width and height to see changes
 ;extra_window_width = 400
 ;extra_window_height = 64
-
-; if not set, IQ Notifier will try to automatically adjust status bar height
-;bar_height = 24
-
-; default value: 0 (invisible)
-; fancy trick: make expiration_bar_height same as window height
-expiration_bar_height = 2
-
-; if not set, IQ Notifier will try to automatically adjust font size
-;font_size = 12
-
-; if not set, IQ Notifier will try to automatically adjust icon size
-;icon_size = 72
 
 ;;;;;;;;;; modifiers ;;;;;;;;;;
 
