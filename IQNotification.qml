@@ -40,7 +40,21 @@ IQPopup {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
-        // TODO: Righ click to close notification
+        acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
+        onClicked: {
+            var rightPressed = mouse.button & Qt.RightButton;
+            if (rightPressed && IQNotifications.closeAllByRightClick) {
+                IQNotifications.onDropAll()
+            }
+            var middlePressed = mouse.button & Qt.MiddleButton;
+            if (middlePressed && IQNotifications.closeVisibleByLeftClick) {
+                return IQNotifications.onDropVisible()
+            }
+            var leftPressed = mouse.button & Qt.LeftButton;
+            if (leftPressed && IQNotifications.closeByLeftClick) {
+                return IQNotifications.onCloseButtonPressed(notification_id)
+            }
+        }
     }
 
     IQNotificationContainer {

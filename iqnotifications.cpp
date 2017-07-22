@@ -68,6 +68,30 @@ int IQNotifications::extraNotificationsCount() const
 	return static_cast<int>(extraNotifications.size());
 }
 
+bool IQNotifications::closeAllByRightClick() const
+{
+	return config
+	    .value(CONFIG_CLOSE_ALL_BY_RIGHT_CLICK,
+		   CONFIG_CLOSE_ALL_BY_RIGHT_CLICK_DEFAULT)
+	    .toBool();
+}
+
+bool IQNotifications::closeVisibleByLeftClick() const
+{
+	return config
+	    .value(CONFIG_CLOSE_VISIBLE_BY_MIDDLE_CLICK,
+		   CONFIG_CLOSE_VISIBLE_BY_MIDDLE_CLICK_DEFAULT)
+	    .toBool();
+}
+
+bool IQNotifications::closeByLeftClick() const
+{
+	return config
+	    .value(CONFIG_CLOSE_BY_LEFT_CLICK,
+		   CONFIG_CLOSE_BY_LEFT_CLICK_DEFAULT)
+	    .toBool();
+}
+
 void IQNotifications::onCreateNotification(const IQNotification &n)
 {
 	if (!createNotificationIfSpaceAvailable(n)) {

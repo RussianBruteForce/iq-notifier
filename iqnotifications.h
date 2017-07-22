@@ -41,6 +41,10 @@ class IQNotifications final : public IQNotificationReceiver,
 		       extraNotificationsCountChanged)
 	Q_PROPERTY(QSize extraWindowSize READ extraWindowSize CONSTANT)
 	Q_PROPERTY(QPoint extraWindowPos READ extraWindowPos CONSTANT)
+	Q_PROPERTY(bool closeAllByRightClick READ closeAllByRightClick CONSTANT)
+	Q_PROPERTY(
+	    bool closeVisibleByLeftClick READ closeVisibleByLeftClick CONSTANT)
+	Q_PROPERTY(bool closeByLeftClick READ closeByLeftClick CONSTANT)
 
 	IQNotifications(IQDisposition::ptr_t disposition_,
 			QObject *parent = nullptr);
@@ -52,6 +56,9 @@ class IQNotifications final : public IQNotificationReceiver,
 	QSize extraWindowSize() const;
 	QPoint extraWindowPos() const;
 	int extraNotificationsCount() const;
+	bool closeAllByRightClick() const;
+	bool closeVisibleByLeftClick() const;
+	bool closeByLeftClick() const;
 
       signals:
 	// Signals to QML
@@ -79,6 +86,10 @@ class IQNotifications final : public IQNotificationReceiver,
 	void onDropVisible();
 
       private:
+	IQ_CONF_VAR(CLOSE_ALL_BY_RIGHT_CLICK, "close_all_by_right_click", true)
+	IQ_CONF_VAR(CLOSE_VISIBLE_BY_MIDDLE_CLICK,
+		    "close_visible_by_middle_click", true)
+	IQ_CONF_VAR(CLOSE_BY_LEFT_CLICK, "close_by_left_click", false)
 	IQ_CONF_VAR(SPACING, "spacing", 0)
 	IQ_CONF_FACTOR(GLOBAL_MARGINS, "global_margins", 0.02610966057441253264)
 	IQ_CONF_FACTOR(EXTRA_WINDOW_WIDTH, "extra_window_width",

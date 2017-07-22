@@ -9,6 +9,10 @@ theme_name = default
 ; you can disable floating notifications
 enabled = true
 
+close_all_by_right_click = true
+close_visible_by_middle_click = true
+close_by_left_click = false
+
 ; spacing between notifications
 spacing = 5
 ; margins between screen borders and notification area

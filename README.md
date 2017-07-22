@@ -35,6 +35,9 @@ If icon not presented, IQ Notifier will compare title and app name; if its equal
 ### All fields are optional
 Unused parts of notifications will not shown. 
 
+### Mouse control
+Right click to close all notifications, middle for all visible.
+
 ### Multiple actions
 Buttons row at the bottom. :)
 
