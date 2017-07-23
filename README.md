@@ -22,6 +22,7 @@ IQ Notifier is fancy and flexible notification daemon.
 ## Features
 ### History
 IQ Notifier will store notifications until restart.
+
 ![h_0](/screenshots/h_0.png?raw=true)
 
 ### TitleToIcon
