@@ -15,26 +15,27 @@
  * along with IQ Notifier.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.5
+#pragma once
 
-Rectangle {
-    id: root
-    width: initialWidth
+#include <QObject>
+#include <QSystemTrayIcon>
+#include <QUrl>
 
-    property bool runnig: false
-    property int expireTimeout: 0
-    property int initialWidth: parent.width
+class IQTrayIcon : public QSystemTrayIcon
+{
+	Q_OBJECT
+	Q_PROPERTY(
+	    QUrl iconUrl READ iconUrl WRITE setIconUrl NOTIFY iconUrlChanged)
+      public:
+	explicit IQTrayIcon(QObject *parent = nullptr);
 
-    function restart() {
-        anim.restart();
-    }
+	QUrl iconUrl() const;
+	void setIconUrl(const QUrl &iconUrl);
 
-    visible: runnig
+      signals:
+	void iconUrlChanged();
+	void leftClick();
 
-    PropertyAnimation {
-        id: anim
-        target: root; property: "width"; from: initialWidth; to: 0
-        duration: expireTimeout < 0 ? 0 : expireTimeout
-        running: root.runnig && expireTimeout > 0
-    }
-}
+      private:
+	QUrl iconUrl_;
+};

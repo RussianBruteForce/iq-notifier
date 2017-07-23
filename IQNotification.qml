@@ -15,7 +15,7 @@
  * along with IQ Notifier.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.5
 import QtQuick.Window 2.1
 import IQNotifier 1.0
 
