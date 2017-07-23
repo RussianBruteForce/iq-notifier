@@ -250,10 +250,7 @@ QUrl TrayIconTheme::icon() const { IQ_THEME_IMAGE(CONFIG_ICON) }
 
 QUrl HistoryWindowTheme::closeIcon() const { IQ_THEME_IMAGE(CONFIG_CLOSE_ICON) }
 
-QUrl HistoryWindowTheme::bgImage() const
-{
-	IQ_THEME_IMAGE(CONFIG_BG_IMAGE)
-}
+QUrl HistoryWindowTheme::bgImage() const { IQ_THEME_IMAGE(CONFIG_BG_IMAGE) }
 
 QString HistoryWindowTheme::windowTitle() const
 {
