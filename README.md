@@ -19,6 +19,10 @@ IQ Notifier is fancy and flexible notification daemon.
 ![3](/screenshots/3.png?raw=true)
 
 ## Features
+### History
+IQ Notifier will store notifications until restart.
+![h_0](/screenshots/h_0.png?raw=true)
+
 ### TitleToIcon
 If icon not presented, IQ Notifier will compare title and app name; if its equals, IQ Notifier will try to find and set app icon.
 
@@ -46,10 +50,6 @@ But currently no config/args support. Feel free to contribute.
 To make opacity [of popups] works you need compositing. Try `compton -CG `, that should work.
 
 # TODO
-- Notifiaction history
-- Fit size of notification to content size
-- Theming support
-- HiDPI support
 - Multiple monitor support
 - More features
 - ??????
@@ -89,7 +89,7 @@ cp /usr/share/iq-notifier/config.example ~/.config/iq-notifier/config
 ```bash
 cpack
 sudo apt update
-sudo dpkg -i iq-notifier-0.1.0-amd64.deb
+sudo dpkg -i iq-notifier-0.4.0-amd64.deb
 sudo apt installf -f
 ```
 

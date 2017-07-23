@@ -16,7 +16,7 @@
  */
 
 import QtQuick.Window 2.1
-import QtQuick 2.0
+import QtQuick 2.5
 import IQNotifier 1.0
 
 QtObject {
@@ -50,14 +50,7 @@ QtObject {
     }
 
     Component.onCompleted: {
-        var component = Qt.createComponent("IQExtraNotifications.qml");
-        if (component.status !== Component.Ready) {
-            if(component.status === Component.Error)
-                console.debug("Error: "+ component.errorString());
-            throw "Can't create extra notifications window!";
-        }
-        var extraNotifications = component.createObject(root,
-                                                  {});
+        initExtraNotifications();
     }
 
     function actionsToButtons(actions) {
@@ -126,6 +119,54 @@ QtObject {
     function moveNotification(notification_id, pos) {
         if (notificationsMap[notification_id] !== undefined) {
             notificationsMap[notification_id].move(pos.x, pos.y);
+        }
+    }
+
+    function initExtraNotifications () {
+        var component = Qt.createComponent("IQExtraNotifications.qml");
+        if (component.status !== Component.Ready) {
+            if(component.status === Component.Error)
+                console.debug("Error: "+ component.errorString());
+            throw "Can't create extra notifications window!";
+        }
+        var extraNotifications = component.createObject(root,
+                                                  {});
+    }
+
+    /* TRAY STUFF */
+
+    property var trayIconLoader__: Loader{
+        id: trayIconLoader
+        sourceComponent: IQHistory.isEnabled ? tray : undefined
+    }
+
+    function createHistoryWindow(cb) {
+            var component = Qt.createComponent("IQHistoryWindow.qml");
+            if (component.status !== Component.Ready) {
+                if(component.status === Component.Error)
+                    console.debug("Error: "+ component.errorString());
+                throw "Can't create history window!";
+            }
+            return component.createObject(root, {closeCallback: cb});
+    }
+
+    property var tray__: Component{
+        id: tray
+        IQTrayIcon {
+            property IQHistoryWindow history
+            iconUrl: IQThemes.trayIconTheme.icon
+            visible: iconUrl != undefined
+            onLeftClick: {
+                if (history == null || history == undefined) {
+                    history = createHistoryWindow(function () {
+                        history = null;
+                    });
+                    history.show()
+                } else {
+                    history.drop();
+                    history = null;
+                }
+            }
         }
     }
 }

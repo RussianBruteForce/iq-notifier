@@ -13,5 +13,7 @@
         <file>IQExtraNotifications.qml</file>
         <file>img/closeVisible.png</file>
         <file>img/closeAll.png</file>
+        <file>IQHistoryWindow.qml</file>
+        <file>IQHistoryNotification.qml</file>
     </qresource>
 </RCC>

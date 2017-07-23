@@ -15,7 +15,7 @@
  * along with IQ Notifier.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.5
 
 Item {
     id: root
@@ -26,7 +26,7 @@ Item {
     property alias closeButtonImageSource: closeImage.source
     property alias textColor: barText.color
     property alias textFontSize: barText.font.pointSize
-    property string text: Qt.string()
+    property string text: ""
 
     Rectangle {
         id: bg

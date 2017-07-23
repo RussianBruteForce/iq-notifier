@@ -15,26 +15,32 @@
  * along with IQ Notifier.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.5
+#include "iqtrayicon.h"
 
-Rectangle {
-    id: root
-    width: initialWidth
+namespace
+{
+QIcon urlToIcon(const QUrl &url)
+{
+	auto iconFileName = url.toString();
+	iconFileName.replace("file:///", "");
+	return QIcon{iconFileName};
+}
+} // anonymouse namespace
 
-    property bool runnig: false
-    property int expireTimeout: 0
-    property int initialWidth: parent.width
+IQTrayIcon::IQTrayIcon(QObject *parent) : QSystemTrayIcon(parent)
+{
+	connect(this, &IQTrayIcon::iconUrlChanged,
+		[this] { setIcon(urlToIcon(iconUrl_)); });
+	connect(this, &IQTrayIcon::activated, [this](ActivationReason reason) {
+		if (reason == Trigger)
+			emit leftClick();
+	});
+}
 
-    function restart() {
-        anim.restart();
-    }
+QUrl IQTrayIcon::iconUrl() const { return iconUrl_; }
 
-    visible: runnig
-
-    PropertyAnimation {
-        id: anim
-        target: root; property: "width"; from: initialWidth; to: 0
-        duration: expireTimeout < 0 ? 0 : expireTimeout
-        running: root.runnig && expireTimeout > 0
-    }
+void IQTrayIcon::setIconUrl(const QUrl &iconUrl)
+{
+	iconUrl_ = iconUrl;
+	emit iconUrlChanged();
 }

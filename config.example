@@ -22,10 +22,13 @@ height = 132
 extra_window_width = 400
 extra_window_height = 32
 
+[history]
+enabled = true
+
 ;;;;;;;;;; modifiers ;;;;;;;;;;
 
 [default_timeout]
-; be careful disabling this modifire!
+; be careful disabling this modifier!
 enabled = true
 ; 0 for default (3500)
 ;default_timeout = 1000
@@ -41,3 +44,4 @@ enabled = true
 enabled = true
 title = true
 body = false
+

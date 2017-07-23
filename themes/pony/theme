@@ -48,3 +48,49 @@ close_button_image = close.png
 extra_close_button_image = closeExtra.png
 extra_close_all_button_image = closeAll.png
 extra_close_visible_button_image = closeVisible.png
+
+[tray]
+icon = tray.png
+
+[history_window]
+; icon for button on bar
+close_icon = close.png
+bg_image = history_bg.png
+
+window_title = IQ Notifier
+
+; 0 for full height 
+height = 0
+; 0 for ¼ of width
+width = 0
+
+; window position
+;	UNDEFINED : 0
+;	LEFT_TOP : 1
+;	LEFT_BOT : 2
+;	RIGHT_BOT : 3
+;	RIGHT_TOP : 4
+window_position = 1
+
+; works only if window_position is 0 or not defined
+;x = 0
+;y = 0
+
+
+; can'not be deduced auto: 0 is for invisible bar
+bar_height = 32
+
+; 0 for auto
+notification_height = 0
+bar_font_size = 0
+napp_font_size = 0
+ntitle_font_size = 0
+nbody_font_size = 0
+
+bg_color = #488295
+bar_bg_color = #54909d
+bar_text_color = #33001b
+nbg_color = #488295
+napp_text_color = #074552
+ntitle_text_color = #33001b
+nbody_text_color = #074552
