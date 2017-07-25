@@ -67,12 +67,18 @@ Use `ag TODO` or your favorite IDE to find TODOs in code.
 sudo apt install cmake qtbase5-dev qtdeclarative5-dev libqt5xdg-dev
 ```
 
+For X11 plugin you also need:
+```bash
+sudo apt install libx11-dev
+```
+
 # Build
 To clone this repo with dependencies (GSL) use `--recursive` flag:
 ```bash
 git clone --recursive git@github.com:RussianBruteForce/iq-notifier.git
 mkdir iq-notifier/build; cd iq-notifier/build
-cmake -DCMAKE_BUILD_TYPE=Release ..
+# set X11 if you want X11 plugin
+cmake -DCMAKE_BUILD_TYPE=Release -DX11 ..
 make
 ```
 
@@ -100,6 +106,9 @@ sudo apt update
 sudo dpkg -i iq-notifier-0.4.0-amd64.deb
 sudo apt installf -f
 ```
+
+# RMP repository
+[Repo by ZaWertun](https://copr.fedorainfracloud.org/coprs/zawertun/scrapyard/)
 
 # Contributions
 Feel free to make pull requests/fork this project. You can also contact me via e-mail: [bruteforce@sigil.tk](mailto:bruteforce@sigil.tk)
