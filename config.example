@@ -31,11 +31,11 @@ extra_window_height = 32
 ; when set, IQ Notifier will try to detect fullscreen windows on current desktop
 ; and will not show popups in this case
 ; disabled by default
-dont_show_when_fullscreen_current_desktop = true
+dont_show_when_fullscreen_current_desktop = false
 ; don't show popups if any fullscreen windows found
 ; for wms which not support '_NET_WM_DESKTOP' such as old i3wm (from defaultUbuntu repo)
 ; disabled by default
-dont_show_when_fullscreen_any = true
+dont_show_when_fullscreen_any = false
 
 
 
