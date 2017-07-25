@@ -103,7 +103,7 @@ Themes must be placed in `$XDG_CONFIG_HOME/iq-notifier/themes` (`~/.config/iq-no
 ```bash
 cpack
 sudo apt update
-sudo dpkg -i iq-notifier-0.4.0-amd64.deb
+sudo dpkg -i iq-notifier-*-amd64.deb
 sudo apt installf -f
 ```
 
