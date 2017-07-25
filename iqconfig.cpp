@@ -67,6 +67,11 @@ QVariant IQConfig::value(const QString &key, const QVariant &defaultValue) const
 	return settings->value(category + key, defaultValue);
 }
 
+void IQConfig::setValue(const QString &key, const QVariant &value)
+{
+	settings->setValue(category + key, value);
+}
+
 #define IQ_MACRO_STRING(S) IQ_MACRO_STRING__(S)
 #define IQ_MACRO_STRING__(S) #S
 QString IQConfig::applicationName()

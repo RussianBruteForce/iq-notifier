@@ -42,6 +42,7 @@ class IQConfig
 
 	QVariant value(const QString &key,
 		       const QVariant &defaultValue = QVariant()) const;
+	void setValue(const QString &key, const QVariant &value);
 
       private:
 	const QString category;
@@ -61,5 +62,5 @@ struct IQConfigurable {
       protected:
 	explicit IQConfigurable(const QString &name);
 	const QString name_;
-	const IQConfig config;
+	IQConfig config;
 };
