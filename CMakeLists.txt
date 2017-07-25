@@ -54,6 +54,12 @@ target_link_libraries(${PROJECT_NAME} Qt5::Quick)
 target_link_libraries(${PROJECT_NAME} Qt5::DBus)
 target_link_libraries(${PROJECT_NAME} Qt5Xdg)
 
+if (X11)
+    add_definitions(-DIQ_X11=1)
+    add_subdirectory(X11-plugin)
+    target_link_libraries(${PROJECT_NAME} X11-plugin)
+endif() # X11
+
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(FILES "${CMAKE_SOURCE_DIR}/config.example" DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/themes" DESTINATION share/${PROJECT_NAME})
