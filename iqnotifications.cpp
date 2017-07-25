@@ -63,6 +63,12 @@ IQNotifications::get(IQDisposition::ptr_t disposition)
 	return {ptr_};
 }
 
+void IQNotifications::setFullscreenDetector(
+    std::unique_ptr<IQFullscreenDetector> detector)
+{
+	fullscreenDetector = std::move(detector);
+}
+
 int IQNotifications::extraNotificationsCount() const
 {
 	return static_cast<int>(extraNotifications.size());
@@ -92,8 +98,33 @@ bool IQNotifications::closeByLeftClick() const
 	    .toBool();
 }
 
+bool IQNotifications::dontShowWhenFullscreenAny() const
+{
+	return config
+	    .value(CONFIG_DONT_SHOW_WHEN_FULLSCREEN_ANY,
+		   CONFIG_DONT_SHOW_WHEN_FULLSCREEN_ANY_DEFAULT)
+	    .toBool();
+}
+
+bool IQNotifications::dontShowWhenFullscreenCurrentDesktop() const
+{
+	return config
+	    .value(CONFIG_DONT_SHOW_WHEN_FULLSCREEN_CURRENT_DESKTOP,
+		   CONFIG_DONT_SHOW_WHEN_FULLSCREEN_CURRENT_DESKTOP_DEFAULT)
+	    .toBool();
+}
+
+void IQNotifications::setDontShowWhenFullscreenCurrentDesktop(bool value)
+{
+	config.setValue(CONFIG_DONT_SHOW_WHEN_FULLSCREEN_CURRENT_DESKTOP,
+			value);
+	emit dontShowWhenFullscreenCurrentDesktopChanged();
+}
+
 void IQNotifications::onCreateNotification(const IQNotification &n)
 {
+	if (!shouldShowPopup())
+		return;
 	if (!createNotificationIfSpaceAvailable(n)) {
 		extraNotifications.push(n);
 		emit extraNotificationsCountChanged();
@@ -277,4 +308,22 @@ void IQNotifications::checkExtraNotifications()
 		extraNotifications.pop();
 		emit extraNotificationsCountChanged();
 	}
+}
+
+bool IQNotifications::shouldShowPopup() const
+{
+	if (fullscreenDetector) {
+		if (dontShowWhenFullscreenCurrentDesktop()) {
+			auto cd = fullscreenDetector
+				      ->fullscreenWindowsOnCurrentDesktop();
+			if (cd)
+				return false;
+		}
+		if (dontShowWhenFullscreenAny()) {
+			auto any = fullscreenDetector->fullscreenWindows();
+			if (any)
+				return false;
+		}
+	}
+	return true;
 }

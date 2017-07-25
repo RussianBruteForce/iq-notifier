@@ -31,6 +31,10 @@
 #include "iqtopdown.h"
 #include "iqtrayicon.h"
 
+#ifdef IQ_X11
+#include "X11-plugin/x11fullscreendetector.h"
+#endif
+
 /*
  * Should be called first
  */
@@ -62,6 +66,11 @@ gsl::not_null<IQDBusService *> get_service()
 	if (get_history()->isEnabled())
 		dbus_service->connectReceiver(get_history().get());
 
+	std::unique_ptr<IQFullscreenDetector> fullscreenDetector;
+#ifdef IQ_X11
+	fullscreenDetector = std::make_unique<X11FullscreenDetector>();
+#endif // IQ_X11
+	notifications->setFullscreenDetector(std::move(fullscreenDetector));
 	return dbus_service;
 }
 
