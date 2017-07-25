@@ -19,8 +19,6 @@
 
 extern "C" {
 #include <X11/Xatom.h>
-// rem
-#include <unistd.h>
 }
 
 #include <cstring>
