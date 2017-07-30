@@ -1,16 +1,6 @@
 # IQ Notifier
 IQ Notifier is fancy and flexible notification daemon.
 
-## Spec
-[Version 1.2](https://people.gnome.org/~mccann/docs/notification-spec/notification-spec-latest.html)
-
-## Capabilities
-- actions
-- body
-- body-markup
-- icon-static
-- persistence
-
 ## Screenshots
 ![0](/screenshots/0.png?raw=true)
 ![1](/screenshots/1.png?raw=true)
@@ -117,3 +107,13 @@ You also need `clang-format` and `cpplint`.
 
 # License
 Look at COPYING file.
+
+## Spec
+[Version 1.2](https://people.gnome.org/~mccann/docs/notification-spec/notification-spec-latest.html)
+
+## Capabilities
+- actions
+- body
+- body-markup
+- icon-static
+- persistence
